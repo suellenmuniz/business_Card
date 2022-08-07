@@ -1,18 +1,21 @@
 <resources>
     <string name="app_name">Business_Card</string>
-    <string name="label_business_card">Cartão de visitas</string>
-    <string name="label_description_new_card">Novo Cartão</string>
-    <string name="label_nome">Nome</string>
-    <string name="label_telefone">Telefone</string>
-    <string name="label_email">email</string>
-    <string name="label_empresa">Empresa</string>
-    <string name="label_cor">cor</string>
-    <string name="label_confirmar">Confirmar</string>
+
     <string name="label_show_sucess">Cartão cadastrado com sucesso </string>
     <string name="label_share">Compartilhar </string>
     <string name="color_picked">Color picked</string>
     <string name="card_deleted_label">Card deleted</string>
-    <string name="ic_nome">Nome</string>
+    <string name="success_captured_image">Image saved to gallery</string>
+    <string name="share_image_label">Share this Business Card as Image</string>
+    <string name="card_added_success">Card added successfully</string>
+    <string name="fill_all_fields_warning">Please fill all fields</string>
+    <string name="save_card">Save Card</string>
+    <string name="rv_nome">Nome</string>
+    <string name="rv_empresa">Empresa</string>
+    <string name="rv_telefone">telefone</string>
+    <string name="rv_email">email</string>
+    <string name="color">Color</string>
+    <string name="card_business_icon">Card creating a new Business Card</string>
 
     <array name="colors">
         <item>#FF7F50</item>

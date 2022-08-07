@@ -3,30 +3,32 @@ package me.dio.business_card.ui
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import me.dio.business_card.data.BusinessCard
-import me.dio.business_card.data.BusinessCardRepository
+import me.dio.business_card.data.Card
+import me.dio.business_card.data.CardsRepository
 
-class MainViewModel(private val businessCardRepository: BusinessCardRepository) : ViewModel() {
+class MainViewModel(private val cardsRepository: CardsRepository) : ViewModel() {
 
-    fun insertCard(businessCard: BusinessCard) {
-        businessCardRepository.insert(businessCard)
+    fun insertCard(card: Card) {
+        cardsRepository.insert(card)
     }
 
-    fun getAll(): LiveData<List<BusinessCard>> {
-        return businessCardRepository.getAll()
+    fun getAll(): LiveData<List<Card>> {
+        return cardsRepository.getAll()
     }
 
-    fun delete(businessCard: BusinessCard) {
-        businessCardRepository.delete(businessCard)
+    fun delete(card: Card) {
+        cardsRepository.delete(card)
     }
 
 }
 @Suppress("UNCHECKED_CAST")
 
-class MainViewModelFactory(private val  repository: BusinessCardRepository) : ViewModelProvider.Factory {
+class MainViewModelFactory(private val cardsRepository: CardsRepository) : ViewModelProvider.Factory {
+
+
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
-            return MainViewModel(repository) as T
+            return MainViewModel(cardsRepository) as T
         } else {
             throw IllegalArgumentException("Unknown ViewModel class")
         }

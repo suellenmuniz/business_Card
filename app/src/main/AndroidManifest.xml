@@ -15,18 +15,18 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_contacts"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/ic_contacts"
         android:supportsRtl="true"
         android:theme="@style/Theme.Business_Card"
         tools:targetApi="31">
         <activity
-            android:name=".ui.AddBusinessCardActivity"
+            android:name=".ui.AddCardActivity"
             android:exported="false"
             android:parentActivityName=".ui.MainActivity"
-            android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"
-            android:label="insert_new card"/>
+            android:theme="@style/Theme.AppCompat.Dialog.Alert"
+            android:label="insert new card"/>
         <activity
             android:name=".ui.MainActivity"
             android:exported="true">

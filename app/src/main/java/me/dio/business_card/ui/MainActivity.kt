@@ -1,5 +1,6 @@
 package me.dio.business_card.ui
 
+import android.app.Application
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -36,8 +37,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun insertListeners() {
-        binding.fab.setOnClickListener {
-            val intent = Intent(this@MainActivity, AddBusinessCardActivity::class.java)
+        binding.fabGenerate.setOnClickListener {
+            val intent = Intent(this@MainActivity, AddCardActivity::class.java)
             startActivity(intent)
         }
 
