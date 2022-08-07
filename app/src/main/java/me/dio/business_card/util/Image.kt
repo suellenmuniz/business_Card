@@ -14,7 +14,6 @@ import android.view.View
 import android.widget.Toast
 import me.dio.business_card.R
 import java.io.File
-import java.io.FileOutputStream
 import java.io.OutputStream
 
 class Image {
@@ -45,12 +44,13 @@ class Image {
         }
 
         private fun saveMediaToStorage(context: Context, bitmap: Bitmap) {
-            val filename = "${System.currentTimeMillis()}.jpg"
+            val filename = "image_${System.currentTimeMillis()}.jpg"
 
             var fos: OutputStream? = null
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 context.contentResolver?.also { resolver ->
+
                     val contentValues = ContentValues().apply {
                         put(MediaStore.MediaColumns.DISPLAY_NAME, filename)
                         put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg")
@@ -62,14 +62,15 @@ class Image {
                     fos = imageUri?.let {
                         shareIntent(context, imageUri)
                         resolver.openOutputStream(it)
-                    }
+                    } ?: return
+
                 }
             } else {
                 //Devices rodando < Q
-                val imagesDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+                val imagesDir = Environment.getExternalStorageDirectory().toString() + "/Pictures/"
                 val image = File(imagesDir, filename)
                 shareIntent(context, Uri.fromFile(image))
-                fos = FileOutputStream(image)
+                fos = image.outputStream()
             }
             fos?.use {
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, it)

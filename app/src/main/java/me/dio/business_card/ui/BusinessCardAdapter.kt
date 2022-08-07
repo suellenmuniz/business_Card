@@ -1,8 +1,10 @@
 package me.dio.business_card.ui
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -13,6 +15,8 @@ class BusinessCardAdapter :
     ListAdapter<BusinessCard, BusinessCardAdapter.ViewHolder>(DiffCallback()) {
 
     var listenerShare: (View) -> Unit = {}
+    var listenerDelete: (BusinessCard) -> Unit = {}
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -35,25 +39,32 @@ class BusinessCardAdapter :
             binding.tvTelefone.text = item.telefone
             binding.tvEmail.text = item.email
             binding.tvNomeEmpresa.text = item.empresa
+            binding.cvContentCard.setBackgroundColor(Color.parseColor(item.fundoPersonalizado))
+            binding.cvContentCard.setOnClickListener {
 
-            binding.tvNome.setTextColor(item.fundoPersonalizado.toInt())
-            binding.tvEmail.setTextColor(item.fundoPersonalizado.toInt())
-            binding.tvNomeEmpresa.setTextColor(item.fontPersonalizado.toInt())
-            binding.tvTelefone.setTextColor(item.fontPersonalizado.toInt())
-            binding.cdContent.setCardBackgroundColor(item.bgPersonalizado.toInt())
-            binding.cdContent.setOnClickListener {
-                listenerShare(it)
+                val builder = AlertDialog.Builder(it.context)
+                builder.setTitle("Share or Delete")
+                builder.setItems(arrayOf("Share", "Delete")) { _, which ->
+                    when (which) {
+                        0 -> listenerShare(it)
+                        1 -> listenerDelete(item)
+                    }
+                }
+                builder.show()
+
             }
         }
     }
 
 
-}
-class DiffCallback :DiffUtil.ItemCallback<BusinessCard>() {
-    override fun areItemsTheSame(oldItem: BusinessCard, newItem: BusinessCard) = oldItem == newItem
-    override fun areContentsTheSame(oldItem: BusinessCard, newItem: BusinessCard) =
-        oldItem.id == newItem.id
+    class DiffCallback : DiffUtil.ItemCallback<BusinessCard>() {
+        override fun areItemsTheSame(oldItem: BusinessCard, newItem: BusinessCard) =
+            oldItem == newItem
+
+        override fun areContentsTheSame(oldItem: BusinessCard, newItem: BusinessCard) =
+            oldItem.id == newItem.id
 
     }
-
 }
+
+

@@ -23,7 +23,10 @@
         tools:targetApi="31">
         <activity
             android:name=".ui.AddBusinessCardActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".ui.MainActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"
+            android:label="insert_new card"/>
         <activity
             android:name=".ui.MainActivity"
             android:exported="true">

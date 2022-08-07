@@ -1,63 +1,53 @@
 package me.dio.business_card.ui
 
-import android.Manifest
 import android.content.Intent
-import android.media.Image
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import me.dio.business_card.App
+import me.dio.business_card.R
 import me.dio.business_card.databinding.ActivityMainBinding
-import me.dio.business_card.util.Image.Companion.share
-
+import me.dio.business_card.util.Image
 
 class MainActivity : AppCompatActivity() {
 
-    private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
-
+    private lateinit var binding: ActivityMainBinding
     private val mainViewModel: MainViewModel by viewModels {
         MainViewModelFactory((application as App).repository)
     }
-    private val adapter by lazy { BusinessCardAdapter() }
+    private val mainAdapter: BusinessCardAdapter by lazy { BusinessCardAdapter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setUpPermissions()
-        binding.rvCards.adapter = adapter
-        getAllBusinessCard()
+        binding.rvCards.adapter = mainAdapter
+        getAllBusinessCards()
         insertListeners()
+
+
     }
 
-    private fun setUpPermissions() {
-        // write permission to access the storage
-        ActivityCompat.requestPermissions(
-            this,
-            arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-            1
-        )
-        ActivityCompat.requestPermissions(
-            this,
-            arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-            1
-        )
+    private fun getAllBusinessCards() {
+            mainViewModel.getAll().observe(this) { cardsList ->
+            mainAdapter.submitList(cardsList)
+        }
     }
 
     private fun insertListeners() {
         binding.fab.setOnClickListener {
-            val intent = Intent(this, AddBusinessCardActivity::class.java)
+            val intent = Intent(this@MainActivity, AddBusinessCardActivity::class.java)
             startActivity(intent)
         }
-        adapter.listenerShare = { card ->
+
+        mainAdapter.listenerShare = { card ->
             Image.share(this@MainActivity, card)
         }
-    }
-
-    private fun getAllBusinessCard() {
-        mainViewModel.getAll().observe(this, { businessCards ->
-            adapter.submitList(businessCards)
-        })
+       mainAdapter.listenerDelete = { card ->
+            mainViewModel.delete(card)
+            Toast.makeText(this@MainActivity, getString(R.string.card_deleted_label), Toast.LENGTH_SHORT).show()
+        }
     }
 
 

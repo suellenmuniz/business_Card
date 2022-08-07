@@ -4,15 +4,21 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
-class BusinessCardRepository(private val dao: BusinessCardDao) {
+class BusinessCardRepository(private val businessCardDao: BusinessCardDao) {
 
     fun insert(businessCard: BusinessCard) = runBlocking {
         launch(Dispatchers.IO) {
-            dao.insert(businessCard)
+            businessCardDao.insert(businessCard)
 
         }
 
     }
 
-    fun getAll() = dao.getAll()
+    fun getAll() = businessCardDao.getAll()
+
+    fun delete(businessCard: BusinessCard) = runBlocking {
+        launch(Dispatchers.IO) {
+            businessCardDao.delete(businessCard)
+        }
+    }
 }
